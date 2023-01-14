@@ -3,7 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_bloc_app/bloc/article/article_bloc.dart';
 import 'package:flutter_bloc_app/bloc/article/article_state.dart';
 import 'package:flutter_bloc_app/model/article.dart';
-import 'package:flutter_bloc_app/widgets/error_message.dart';
+import 'package:flutter_bloc_app/widgets/article/article_card.dart';
+import 'package:flutter_bloc_app/widgets/ui/error_message.dart';
 
 class ArticlesList extends StatelessWidget {
   const ArticlesList({super.key});
@@ -30,7 +31,7 @@ class ArticlesList extends StatelessWidget {
             itemCount: state.articles.length,
             itemBuilder: (context, index) {
               Article article = state.articles[index];
-              return Text(article.title);
+              return ArticleCard(article: article);
             },
           );
         }
