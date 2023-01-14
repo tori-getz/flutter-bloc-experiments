@@ -13,11 +13,18 @@ class ArticlesPage extends StatelessWidget {
   static const String route = '/';
 
   Widget _getBody(BuildContext context, InternetConnectionState state) {
+    ArticleBloc articleBloc = context.read<ArticleBloc>();
+
     if (!state.connected) {
       return const ErrorMessage(message: 'Please, check internet connection');
     }
 
-    return const ArticlesList();
+    return RefreshIndicator(
+      child: ArticlesList(),
+      onRefresh: () async {
+        articleBloc.add(ArticleLoadEvent());
+      },
+    );
   }
 
   @override
