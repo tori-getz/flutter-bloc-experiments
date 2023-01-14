@@ -12,9 +12,7 @@ class ArticlesList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<ArticleBloc, ArticleState>(
-      listener: (context, state) {
-        print(state.toString());
-      },
+      listener: (context, state) {},
       builder: (context, state) {
         if (state is ArticleLoadingState) {
           return const Center(

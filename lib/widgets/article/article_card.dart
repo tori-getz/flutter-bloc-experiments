@@ -1,3 +1,4 @@
+import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc_app/model/article.dart';
 
@@ -6,10 +7,36 @@ class ArticleCard extends StatelessWidget {
 
   const ArticleCard({super.key, required this.article});
 
-  Widget _getImage() {
+  Widget _getImage(BuildContext context) {
     if (article.urlToImage == null) return const SizedBox.shrink();
 
-    return Image.network(article.urlToImage!);
+    return ExtendedImage.network(
+      article.urlToImage!,
+      loadStateChanged: (state) {
+        LoadState loadState = state.extendedImageLoadState;
+
+        if (loadState == LoadState.completed) {
+          return ExtendedRawImage(
+            image: state.extendedImageInfo?.image,
+          );
+        }
+
+        if (loadState == LoadState.loading) {
+          return Container(
+            width: MediaQuery.of(context).size.width,
+            color: Colors.grey[900],
+            padding: const EdgeInsets.all(20),
+            child: Column(children: const [
+              CircularProgressIndicator(
+                color: Colors.white,
+              )
+            ]),
+          );
+        }
+
+        return const SizedBox.shrink();
+      },
+    );
   }
 
   @override
@@ -18,7 +45,7 @@ class ArticleCard extends StatelessWidget {
       margin: const EdgeInsets.all(16),
       child: Column(
         children: [
-          _getImage(),
+          _getImage(context),
           const SizedBox(
             height: 10,
           ),

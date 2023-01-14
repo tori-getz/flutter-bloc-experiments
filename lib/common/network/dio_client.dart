@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
+import 'package:dio_logger/dio_logger.dart';
 import 'package:flutter_bloc_app/common/network/endpoints.dart';
-import 'package:flutter_pretty_dio_logger/flutter_pretty_dio_logger.dart';
 
 class DioClient {
   final dio = createDio();
@@ -18,7 +18,7 @@ class DioClient {
       ..receiveTimeout = Endpoints.receiveTimeout
       ..connectTimeout = Endpoints.connectionTimeout;
 
-    dio.interceptors.add(PrettyDioLogger(requestBody: true));
+    dio.interceptors.add(dioLoggerInterceptor);
 
     return dio;
   }
